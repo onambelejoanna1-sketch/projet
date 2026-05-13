@@ -1,0 +1,110 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: var(--bw-2) solid var(--ink);
+  background: var(--paper-warm);
+  box-shadow: var(--shadow-md);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  border-bottom: var(--bw-1) solid var(--border-soft);
+  padding-bottom: var(--sp-2);
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: var(--weight-semibold);
+  color: var(--ink);
+}
+
+.group {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.groupLabel {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: var(--weight-semibold);
+  color: var(--text-muted);
+  min-width: 60px;
+  padding-top: 6px;
+  flex-shrink: 0;
+}
+
+.chipsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  flex: 1;
+}
+
+.chip {
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: var(--weight-medium);
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--bw-1) solid var(--ink);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.chip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.chipActive {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.chipActive:hover {
+  background: var(--ink-soft);
+}
+
+.reset {
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--clay);
+  cursor: pointer;
+  padding: 0;
+  font-weight: var(--weight-semibold);
+}
+
+.reset:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  .group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+  .groupLabel {
+    padding-top: 0;
+  }
+}

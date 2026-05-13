@@ -1,0 +1,111 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: var(--fs-sm);
+  border: var(--bw-2) solid var(--ink);
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* sizes */
+.s_sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--fs-xs);
+}
+.s_md {
+  padding: 0.875rem 1.5rem;
+}
+.s_lg {
+  padding: 1.125rem 2rem;
+  font-size: var(--fs-base);
+}
+
+.full {
+  width: 100%;
+}
+
+/* variants — brutalist offset shadow */
+.v_primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: var(--shadow-clay);
+}
+.v_primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--clay);
+}
+.v_primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--clay);
+}
+
+.v_clay {
+  background: var(--clay);
+  color: var(--paper);
+  box-shadow: var(--shadow-md);
+}
+.v_clay:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.v_clay:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.v_ghost {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
+}
+.v_ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.v_outline {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.v_outline:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+  background: var(--sand);
+}
+
+.v_paper {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+  box-shadow: 4px 4px 0 var(--clay);
+}
+.v_paper:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--clay);
+}

@@ -1,0 +1,102 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  border: var(--bw-2) solid var(--ink);
+  background: var(--mangrove);
+  overflow: hidden;
+}
+
+.leafletRoot {
+  width: 100%;
+  height: 100%;
+  background: var(--mangrove);
+}
+
+/* Restyle Leaflet's default zoom controls to match brutalist design */
+.wrap :global(.leaflet-control-zoom) {
+  border: var(--bw-2) solid var(--ink) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+.wrap :global(.leaflet-control-zoom-in),
+.wrap :global(.leaflet-control-zoom-out) {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: var(--weight-bold) !important;
+  border-bottom: 1px solid var(--ink) !important;
+}
+
+.wrap :global(.leaflet-control-zoom-out) {
+  border-bottom: 0 !important;
+}
+
+.wrap :global(.leaflet-control-zoom-in:hover),
+.wrap :global(.leaflet-control-zoom-out:hover) {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+}
+
+.wrap :global(.leaflet-control-attribution) {
+  background: rgba(250, 246, 240, 0.92) !important;
+  border-top: 1px solid var(--ink) !important;
+  border-left: 1px solid var(--ink) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  padding: 2px 6px !important;
+}
+
+.wrap :global(.leaflet-control-attribution a) {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+/* Tooltip restyle */
+.wrap :global(.leaflet-tooltip) {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  border: var(--bw-2) solid var(--ink) !important;
+  border-radius: 0 !important;
+  box-shadow: var(--shadow-sm) !important;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  padding: var(--sp-2) var(--sp-3) !important;
+  white-space: normal;
+  max-width: 220px;
+}
+
+.wrap :global(.leaflet-tooltip-top::before) {
+  border-top-color: var(--ink) !important;
+}
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.3;
+}
+
+.tooltip strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.01em;
+}
+
+.tooltipMeta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+.tooltipCounts {
+  font-size: 11px;
+  opacity: 0.78;
+}

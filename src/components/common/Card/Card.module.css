@@ -1,0 +1,56 @@
+.card {
+  border: var(--bw-2) solid var(--ink);
+  background: var(--paper);
+  position: relative;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.v_default {
+  padding: var(--sp-6);
+}
+
+.v_paper {
+  background: var(--bg-elevated);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.v_offset {
+  background: var(--bg-elevated);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-md);
+}
+
+.v_offset:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.v_clay {
+  background: var(--clay);
+  color: var(--paper);
+  padding: var(--sp-6);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-md);
+}
+
+.v_mangrove {
+  background: var(--mangrove);
+  color: var(--paper);
+  padding: var(--sp-6);
+  border-color: var(--ink);
+  box-shadow: var(--shadow-md);
+}
+
+.v_sand {
+  background: var(--sand);
+  padding: var(--sp-6);
+}
+
+.v_flat {
+  border-color: transparent;
+  border-bottom: var(--bw-2) solid var(--ink);
+  padding: var(--sp-4) 0;
+}

@@ -1,0 +1,40 @@
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.alerte {
+  font-style: italic;
+  font-weight: var(--weight-bold);
+  font-size: 1.5rem;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
+}
+
+.tri {
+  display: inline-flex;
+  color: var(--clay);
+  align-self: center;
+  transform: translateY(-1px);
+}
+
+.douala {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.95rem;
+}
+
+.inverted {
+  color: var(--paper);
+}
+.inverted .tri {
+  color: var(--clay);
+}

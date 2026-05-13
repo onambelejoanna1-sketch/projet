@@ -1,0 +1,126 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--paper);
+  border-bottom: var(--bw-2) solid transparent;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out),
+    backdrop-filter var(--dur-base) var(--ease-out);
+}
+
+.scrolled {
+  background: rgba(250, 246, 240, 0.92);
+  backdrop-filter: saturate(150%) blur(8px);
+  -webkit-backdrop-filter: saturate(150%) blur(8px);
+  border-bottom-color: var(--ink);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  height: var(--header-h);
+}
+
+.nav {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.link {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: var(--weight-medium);
+  padding: 0.65rem 0.9rem;
+  color: var(--ink);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.4rem;
+  height: 2px;
+  background: var(--clay);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.link:hover::after,
+.linkActive::after {
+  transform: scaleX(1);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.burger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border: var(--bw-2) solid var(--ink);
+  background: var(--paper);
+}
+
+.burger span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--ink);
+}
+
+.mobile {
+  border-top: var(--bw-2) solid var(--ink);
+  background: var(--paper);
+  animation: fadeIn var(--dur-base) var(--ease-out);
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.mobileLink {
+  display: block;
+  padding: 1rem var(--container-px);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+  border-bottom: var(--bw-1) solid var(--border-soft);
+  color: var(--ink);
+}
+
+.mobileLinkPrimary {
+  background: var(--clay);
+  color: var(--paper);
+}
+
+@media (max-width: 880px) {
+  .nav,
+  .actions {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+    margin-left: auto;
+  }
+}

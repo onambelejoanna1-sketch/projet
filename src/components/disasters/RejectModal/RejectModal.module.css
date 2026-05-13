@@ -1,0 +1,67 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.context {
+  padding: var(--sp-3);
+  background: var(--paper-warm);
+  border: var(--bw-1) solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contextTitle {
+  font-weight: var(--weight-semibold);
+  font-size: var(--fs-base);
+}
+
+.contextSub {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: var(--weight-semibold);
+}
+
+.textarea {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  padding: var(--sp-3);
+  border: var(--bw-2) solid var(--ink);
+  background: var(--paper);
+  resize: vertical;
+  min-height: 100px;
+  width: 100%;
+  color: var(--ink);
+}
+
+.textarea:focus {
+  outline: 2px solid var(--clay);
+  outline-offset: 2px;
+}
+
+.error {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--alert);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  flex-wrap: wrap;
+}

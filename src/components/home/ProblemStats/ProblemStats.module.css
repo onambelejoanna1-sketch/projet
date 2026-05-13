@@ -1,0 +1,92 @@
+.section {
+  background: var(--paper);
+}
+
+.title {
+  font-size: clamp(2.5rem, 1.7rem + 3vw, 4.5rem);
+  max-width: 22ch;
+  letter-spacing: -0.025em;
+  font-variation-settings: 'opsz' 144, 'WONK' 1;
+}
+
+.title em {
+  color: var(--clay);
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
+}
+
+.lede {
+  margin-top: 1.25rem;
+  max-width: 60ch;
+  font-size: var(--fs-md);
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: var(--bw-2) solid var(--ink);
+  border-bottom: var(--bw-2) solid var(--ink);
+}
+
+.card {
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.5rem, 2.5vw, 2rem);
+  border-right: var(--bw-1) solid var(--border-medium);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  background: transparent;
+  transition: background-color var(--dur-base) var(--ease-out);
+}
+
+.card:last-child {
+  border-right: 0;
+}
+
+.card:hover {
+  background: var(--sand);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+  font-weight: var(--weight-black);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--mangrove);
+  font-variation-settings: 'opsz' 144, 'WONK' 1;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-variation-settings: 'opsz' 36;
+}
+
+.detail {
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--moss);
+  margin-top: auto;
+}
+
+@media (max-width: 880px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    border-right: 0;
+    border-bottom: var(--bw-1) solid var(--border-medium);
+  }
+  .card:last-child {
+    border-bottom: 0;
+  }
+}

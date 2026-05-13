@@ -1,0 +1,97 @@
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--weight-regular);
+  color: var(--text);
+  background-color: var(--bg);
+  font-feature-settings: 'ss01', 'ss02', 'cv11';
+  letter-spacing: -0.005em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  letter-spacing: -0.02em;
+  line-height: var(--leading-tight);
+  color: inherit;
+}
+
+h5,
+h6 {
+  font-family: var(--font-body);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+  line-height: var(--leading-snug);
+}
+
+h1 {
+  font-size: var(--fs-display);
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 1;
+}
+
+h2 {
+  font-size: var(--fs-3xl);
+  font-variation-settings: 'opsz' 96;
+}
+
+h3 {
+  font-size: var(--fs-2xl);
+  font-variation-settings: 'opsz' 72;
+}
+
+h4 {
+  font-size: var(--fs-xl);
+  font-variation-settings: 'opsz' 36;
+}
+
+h5 {
+  font-size: var(--fs-lg);
+}
+
+h6 {
+  font-size: var(--fs-md);
+}
+
+p {
+  font-size: var(--fs-base);
+  line-height: var(--leading-relaxed);
+  color: inherit;
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1;
+}
+
+.text-display {
+  font-family: var(--font-display);
+}
+
+.text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: var(--weight-medium);
+  color: var(--moss);
+}
+
+.text-italic {
+  font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-mangrove {
+  color: var(--mangrove);
+}
+
+.text-clay {
+  color: var(--clay);
+}

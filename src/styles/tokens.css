@@ -1,0 +1,120 @@
+:root {
+  /* ========== Palette ========== */
+  --ink: #1a1a1a;
+  --ink-soft: #2a2a2a;
+  --paper: #faf6f0;
+  --paper-warm: #f5efe5;
+  --mangrove: #0e3b2e;
+  --mangrove-light: #1a5742;
+  --clay: #e5572e;
+  --clay-light: #ee7b56;
+  --clay-dark: #c4451f;
+  --alert: #c8102e;
+  --moss: #6b7166;
+  --sand: #efe7d9;
+  --sand-deep: #ddd2bd;
+
+  /* ========== Surfaces ========== */
+  --bg: var(--paper);
+  --bg-elevated: #ffffff;
+  --surface-alt: var(--sand);
+  --border: var(--ink);
+  --border-soft: rgba(26, 26, 26, 0.12);
+  --border-medium: rgba(26, 26, 26, 0.24);
+
+  /* ========== Text ========== */
+  --text: var(--ink);
+  --text-muted: var(--moss);
+  --text-inverted: var(--paper);
+
+  /* ========== Status ========== */
+  --status-pending: #b8860b;
+  --status-validated: var(--mangrove);
+  --status-rejected: var(--moss);
+  --status-critical: var(--alert);
+
+  /* ========== Risk visualization (carte) ========== */
+  --risk-low: #f4c430;
+  --risk-medium: #e5572e;
+  --risk-high: #c8102e;
+  --risk-none: #6b7166;
+
+  /* ========== Typography ========== */
+  --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Manrope', -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  /* Fluid type scale (clamped) */
+  --fs-xs: clamp(0.7rem, 0.7rem + 0.1vw, 0.75rem);
+  --fs-sm: clamp(0.8rem, 0.78rem + 0.15vw, 0.875rem);
+  --fs-base: clamp(0.95rem, 0.92rem + 0.2vw, 1rem);
+  --fs-md: clamp(1.05rem, 1rem + 0.3vw, 1.15rem);
+  --fs-lg: clamp(1.2rem, 1.1rem + 0.5vw, 1.4rem);
+  --fs-xl: clamp(1.5rem, 1.3rem + 1vw, 1.875rem);
+  --fs-2xl: clamp(2rem, 1.7rem + 1.5vw, 2.75rem);
+  --fs-3xl: clamp(2.5rem, 2rem + 2.5vw, 3.75rem);
+  --fs-4xl: clamp(3rem, 2.3rem + 3.5vw, 5rem);
+  --fs-display: clamp(3.5rem, 2.5rem + 5vw, 7.5rem);
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.75;
+
+  /* ========== Spacing (4px grid) ========== */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+
+  /* ========== Layout ========== */
+  --container-max: 1280px;
+  --container-px: clamp(1rem, 4vw, 3rem);
+  --header-h: 72px;
+
+  /* ========== Borders & radii ========== */
+  --bw-1: 1px;
+  --bw-2: 2px;
+  --bw-3: 3px;
+  --bw-4: 4px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* ========== Shadows (brutalist offset) ========== */
+  --shadow-sm: 2px 2px 0 var(--ink);
+  --shadow-md: 4px 4px 0 var(--ink);
+  --shadow-lg: 8px 8px 0 var(--ink);
+  --shadow-clay: 4px 4px 0 var(--clay);
+  --shadow-mangrove: 4px 4px 0 var(--mangrove);
+
+  /* ========== Animation ========== */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 280ms;
+  --dur-slow: 500ms;
+
+  /* ========== Z-index ========== */
+  --z-base: 1;
+  --z-elevated: 10;
+  --z-sticky: 100;
+  --z-overlay: 1000;
+  --z-modal: 1100;
+  --z-toast: 1200;
+}

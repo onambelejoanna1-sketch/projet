@@ -1,0 +1,46 @@
+{
+  "name": "alerte-douala",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "kill:back": "kill-port 4000",
+    "kill:front": "kill-port 5173 4173",
+    "kill:all": "kill-port 4000 5173 4173",
+    "predev:back": "npm run kill:back",
+    "dev:back": "npm --prefix backend run dev",
+    "predev:all": "npm run kill:all",
+    "dev:all": "concurrently -k -n front,back -c blue,magenta \"npm run dev\" \"npm --prefix backend run dev\"",
+    "build": "vite build",
+    "lint": "eslint .",
+    "prepreview": "npm run kill:front",
+    "preview": "vite preview",
+    "preview:build": "npm run build && npm run preview",
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\""
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.38.0",
+    "leaflet": "^1.9.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.15.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.2.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
+    "kill-port": "^2.0.1",
+    "prettier": "^3.8.3",
+    "vite": "^8.0.10",
+    "vite-plugin-pwa": "^1.3.0"
+  }
+}

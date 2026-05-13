@@ -1,0 +1,143 @@
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--clay);
+  font-weight: var(--weight-bold);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: var(--weight-black);
+  font-variation-settings: 'opsz' 96, 'WONK' 1;
+  color: var(--ink);
+}
+
+.title em {
+  font-style: italic;
+  color: var(--mangrove);
+  font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
+}
+
+.subtitle {
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 40ch;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.aside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: -0.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.helper {
+  color: var(--moss);
+}
+
+.linkInline {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: var(--weight-bold);
+  border-bottom: 2px solid var(--clay);
+  padding-bottom: 1px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.linkInline:hover {
+  color: var(--clay);
+}
+
+.formError {
+  background: var(--alert);
+  color: var(--paper);
+  padding: 0.85rem 1rem;
+  border: var(--bw-2) solid var(--ink);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  font-weight: var(--weight-medium);
+}
+
+.submit {
+  margin-top: 0.5rem;
+}
+
+.adminNote {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: var(--bw-1) dashed var(--border-medium);
+  padding: 0.75rem 0.9rem;
+}
+
+.adminNote strong {
+  color: var(--ink);
+  font-weight: var(--weight-bold);
+}
+
+.foot {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: var(--bw-1) solid var(--border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: var(--fs-sm);
+}
+
+.footLabel {
+  color: var(--moss);
+}
+
+.legal {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--moss);
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,38 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: var(--z-modal);
+  animation: fadeIn var(--dur-fast) var(--ease-out);
+}
+
+.dialog {
+  background: var(--paper);
+  border: var(--bw-2) solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  width: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow: auto;
+  padding: 2rem;
+  animation: fadeUp var(--dur-base) var(--ease-out);
+}
+
+.s_sm { max-width: 420px; }
+.s_md { max-width: 600px; }
+.s_lg { max-width: 880px; }
+
+.title {
+  font-size: var(--fs-2xl);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: var(--bw-2) solid var(--ink);
+}
+
+.content {
+  font-size: var(--fs-base);
+  line-height: var(--leading-relaxed);
+}

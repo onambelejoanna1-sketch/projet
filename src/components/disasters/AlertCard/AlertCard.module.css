@@ -1,0 +1,111 @@
+.card {
+  border: var(--bw-2) solid var(--ink);
+  background: var(--paper);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  transition: transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.v_full {
+  padding: var(--sp-5);
+  gap: var(--sp-3);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover,
+.clickable:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-clay);
+  outline: none;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.severity {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: var(--weight-semibold);
+  color: var(--paper);
+  padding: 0.2rem 0.55rem;
+  border: var(--bw-1) solid var(--ink);
+  white-space: nowrap;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--weight-semibold);
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.v_full .title {
+  font-size: var(--fs-lg);
+}
+
+.meta {
+  margin: 0;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.reporter {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.reporter strong {
+  color: var(--ink);
+  font-weight: var(--weight-semibold);
+}
+
+.rejectionReason {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--paper-warm);
+  border-left: var(--bw-3) solid var(--alert);
+  font-size: var(--fs-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rejectionLabel {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--alert);
+  font-weight: var(--weight-semibold);
+}
+
+.actions {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  border-top: var(--bw-1) solid var(--border-soft);
+  padding-top: var(--sp-3);
+  flex-wrap: wrap;
+}

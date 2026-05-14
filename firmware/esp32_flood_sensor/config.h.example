@@ -6,14 +6,17 @@
 #define WIFI_SSID       "VotreReseauWiFi"
 #define WIFI_PASSWORD   "VotreMotDePasse"
 
-// URL complète de la Cloud Function HTTPS, ex :
-// https://europe-west1-alerte-douala.cloudfunctions.net/ingestSensorReading
-#define INGEST_URL      "https://REGION-PROJECT.cloudfunctions.net/ingestSensorReading"
+// URL complète de l'endpoint d'ingestion du backend Express :
+//   POST /api/sensors/:deviceId/readings
+// En dev (ESP32 sur le même WiFi que la machine qui sert le backend) :
+//   http://192.168.1.x:4000/api/sensors/ESP32-AKWA-001/readings
+// En prod : utiliser HTTPS derrière un reverse proxy.
+#define INGEST_URL      "http://192.168.1.10:4000/api/sensors/ESP32-AKWA-001/readings"
 
-// Clé API définie côté serveur via:
-//   firebase functions:secrets:set SENSOR_API_KEY
-#define API_KEY         "secret-shared-with-cloud-function"
+// Clé API partagée — doit correspondre exactement à SENSOR_API_KEY côté backend
+// (variable d'environnement requise, voir backend/.env).
+#define API_KEY         "secret-shared-with-backend"
 
 // Identifiant unique du dispositif. Doit correspondre au champ deviceId
-// du document Firestore sensors/<id>.
+// d'un capteur enregistré côté backend (collection sensors).
 #define DEVICE_ID       "ESP32-AKWA-001"

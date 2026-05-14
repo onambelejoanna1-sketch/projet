@@ -8,6 +8,7 @@ import disastersRoutes from './src/routes/disasters.routes.js';
 import sensorsRoutes from './src/routes/sensors.routes.js';
 import adminRoutes from './src/routes/admin.routes.js';
 import publicRoutes from './src/routes/public.routes.js';
+import notificationsRoutes from './src/routes/notifications.routes.js';
 import { errorHandler } from './src/middleware/errorHandler.js';
 import { notFound } from './src/middleware/notFound.js';
 
@@ -27,6 +28,7 @@ app.use('/api/disasters', disastersRoutes);
 app.use('/api/sensors', sensorsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

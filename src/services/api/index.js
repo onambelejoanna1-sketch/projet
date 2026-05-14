@@ -1,4 +1,12 @@
-export { register, signIn, signOut, onAuth, getUserProfile } from './auth.service';
+export {
+  register,
+  signIn,
+  signOut,
+  onAuth,
+  getUserProfile,
+  requestPasswordReset,
+  confirmPasswordReset,
+} from './auth.service';
 export {
   getUser,
   listUsers,
@@ -39,3 +47,17 @@ export {
   getPublicStats,
   listPublicSensors,
 } from './public.service';
+export {
+  listNotifications,
+  getUnreadCount,
+  markNotificationRead,
+  markAllNotificationsRead,
+  subscribeNotifications,
+} from './notifications.service';
+export {
+  isPushSupported,
+  pushPermission,
+  getPushStatus,
+  enablePush,
+  disablePush,
+} from './push.service';

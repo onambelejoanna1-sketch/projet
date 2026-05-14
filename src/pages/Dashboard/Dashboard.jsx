@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import DashboardLayout from '@/components/layout/DashboardLayout/DashboardLayout';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/contexts/ToastContext';
 import { ROUTES } from '@/constants/routes';
 import {
   listMyDisasters,
@@ -45,6 +46,7 @@ function todayLabel() {
 
 export default function Dashboard() {
   const { profile } = useAuth();
+  const { notify } = useToast();
   const uid = profile?.uid;
   const [reports, setReports] = useState([]);
   const [alerts, setAlerts] = useState([]);
@@ -59,15 +61,21 @@ export default function Dashboard() {
         setReports(myReports);
         setAlerts(feed);
       })
-      .catch(() => {
+      .catch((err) => {
         if (cancelled) return;
         setReports([]);
         setAlerts([]);
+        console.error('[Dashboard] échec chargement données :', err);
+        notify({
+          tone: 'error',
+          title: 'Données indisponibles',
+          body: 'Impossible de charger votre tableau de bord. Réessayez plus tard.',
+        });
       });
     return () => {
       cancelled = true;
     };
-  }, [uid]);
+  }, [uid, notify]);
 
   const stats = uid ? deriveStats(reports) : EMPTY_STATS;
   const lastReports = reports.slice(0, 5);

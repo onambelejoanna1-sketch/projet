@@ -24,8 +24,8 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#FAF6F0',
-        theme_color: '#0E3B2E',
+        background_color: '#FBF8F3',
+        theme_color: '#2F5D4A',
         categories: ['utilities', 'news', 'social'],
         icons: [
           {
@@ -65,6 +65,8 @@ export default defineConfig({
       workbox: {
         // Précache de l'app shell (CSS/JS/HTML générés par le build).
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webp,woff2}'],
+        // Greffe nos handlers Web Push dans le service worker généré.
+        importScripts: ['/sw-push.js'],
         // Stratégies runtime pour les ressources externes et l'API.
         runtimeCaching: [
           {

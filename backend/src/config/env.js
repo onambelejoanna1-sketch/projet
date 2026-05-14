@@ -14,5 +14,12 @@ export const env = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   bcryptRounds: Number(process.env.BCRYPT_ROUNDS || 10),
   corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  sensorApiKey: process.env.SENSOR_API_KEY || 'dev-sensor-key',
+  sensorApiKey: required('SENSOR_API_KEY'),
+  // Web Push : optionnel — si absent, les notifications OS-level sont désactivées
+  // (le canal SSE in-app continue de fonctionner normalement).
+  vapidPublicKey: process.env.VAPID_PUBLIC_KEY || null,
+  vapidPrivateKey: process.env.VAPID_PRIVATE_KEY || null,
+  vapidSubject: process.env.VAPID_SUBJECT || 'mailto:contact@alerte-douala.cm',
 };
+
+export const webPushEnabled = Boolean(env.vapidPublicKey && env.vapidPrivateKey);

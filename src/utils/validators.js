@@ -1,5 +1,7 @@
+const EMAIL_RE = /^[^\s@.]+(?:\.[^\s@.]+)*@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Za-z]{2,}$/;
+
 export function isEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
+  return EMAIL_RE.test(String(value).trim());
 }
 
 export function isStrongPassword(value) {

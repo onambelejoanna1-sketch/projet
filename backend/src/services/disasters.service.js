@@ -6,6 +6,7 @@ import {
   validateRejectReason,
 } from '../validators/disasters.validators.js';
 import { appendActivity, buildActivityEntry } from './activity.service.js';
+import { notifyUser } from './notifications.service.js';
 
 function findUser(db, uid) {
   return db.users.find((u) => u.uid === uid) || null;
@@ -112,7 +113,23 @@ export async function validateDisaster(id, admin) {
     });
     return appendActivity({ ...db, disasters }, entry);
   });
-  return updated.disasters.find((d) => d.id === id);
+  const result = updated.disasters.find((d) => d.id === id);
+  // Notifier l'auteur (sauf si c'est un disaster auto-créé par un capteur).
+  if (result && result.reporterId && result.reporterId !== 'system') {
+    try {
+      await notifyUser({
+        userId: result.reporterId,
+        type: 'disaster.validated',
+        title: 'Votre signalement a été validé',
+        body: `« ${result.title} » est désormais visible publiquement.`,
+        link: `/alertes/${result.id}`,
+        payload: { disasterId: result.id, severity: result.severity },
+      });
+    } catch (err) {
+      console.error('[notifications] échec notification validation :', err);
+    }
+  }
+  return result;
 }
 
 export async function rejectDisaster(id, admin, reasonInput) {
@@ -141,7 +158,22 @@ export async function rejectDisaster(id, admin, reasonInput) {
     });
     return appendActivity({ ...db, disasters }, entry);
   });
-  return updated.disasters.find((d) => d.id === id);
+  const result = updated.disasters.find((d) => d.id === id);
+  if (result && result.reporterId && result.reporterId !== 'system') {
+    try {
+      await notifyUser({
+        userId: result.reporterId,
+        type: 'disaster.rejected',
+        title: 'Votre signalement a été rejeté',
+        body: `« ${result.title} » : ${reason}`,
+        link: `/tableau-de-bord`,
+        payload: { disasterId: result.id, reason },
+      });
+    } catch (err) {
+      console.error('[notifications] échec notification rejet :', err);
+    }
+  }
+  return result;
 }
 
 export async function deleteDisaster(id, admin) {

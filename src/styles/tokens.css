@@ -1,16 +1,18 @@
 :root {
   /* ========== Palette ========== */
-  --ink: #1a1a1a;
-  --ink-soft: #2a2a2a;
-  --paper: #faf6f0;
+  /* Palette assouplie : moins sombre, accents moins saturés.
+     L'alerte rouge reste vive (vraies urgences). */
+  --ink: #2e2e2e;
+  --ink-soft: #4a4a4a;
+  --paper: #fbf8f3;
   --paper-warm: #f5efe5;
-  --mangrove: #0e3b2e;
-  --mangrove-light: #1a5742;
-  --clay: #e5572e;
-  --clay-light: #ee7b56;
-  --clay-dark: #c4451f;
+  --mangrove: #2f5d4a;
+  --mangrove-light: #5e8676;
+  --clay: #c97a4a;
+  --clay-light: #dca085;
+  --clay-dark: #a86237;
   --alert: #c8102e;
-  --moss: #6b7166;
+  --moss: #87897e;
   --sand: #efe7d9;
   --sand-deep: #ddd2bd;
 
@@ -28,16 +30,17 @@
   --text-inverted: var(--paper);
 
   /* ========== Status ========== */
-  --status-pending: #b8860b;
+  --status-pending: #b08a3e;
   --status-validated: var(--mangrove);
   --status-rejected: var(--moss);
   --status-critical: var(--alert);
 
   /* ========== Risk visualization (carte) ========== */
-  --risk-low: #f4c430;
-  --risk-medium: #e5572e;
+  /* Les couleurs de risque restent contrastées (lisibilité critique sur carte). */
+  --risk-low: #d8b03c;
+  --risk-medium: #d97543;
   --risk-high: #c8102e;
-  --risk-none: #6b7166;
+  --risk-none: #87897e;
 
   /* ========== Typography ========== */
   --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;

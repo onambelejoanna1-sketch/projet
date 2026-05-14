@@ -10,8 +10,10 @@ import {
 } from '../utils/thresholds.js';
 import { DOUALA_ZONE_IDS, zoneById } from '../constants/domain.js';
 import { appendActivity, buildActivityEntry } from './activity.service.js';
+import { notifyEveryone } from './notifications.service.js';
 
 const MAX_READINGS = 2000;
+const AUTO_DISASTER_COOLDOWN_MS = 30 * 60 * 1000;
 
 function enrichSensor(sensor, now = Date.now()) {
   return {
@@ -249,7 +251,10 @@ export async function appendReading(deviceId, payload) {
     let activity = db.activity;
     let disasterId = null;
 
-    if (alertLevel === 'critical') {
+    const lastAutoMs = sensor.lastAutoDisasterAtMs || 0;
+    const cooledDown = nowMs - lastAutoMs >= AUTO_DISASTER_COOLDOWN_MS;
+
+    if (alertLevel === 'critical' && cooledDown) {
       const zone = zoneById(sensor.zoneId);
       const auto = {
         id: genDisasterId(),
@@ -274,6 +279,10 @@ export async function appendReading(deviceId, payload) {
       };
       disasters = [auto, ...disasters];
       disasterId = auto.id;
+      sensors[sensorIdx] = {
+        ...sensors[sensorIdx],
+        lastAutoDisasterAtMs: nowMs,
+      };
       const entry = buildActivityEntry({
         actorUid: 'system',
         actorName: `Capteur ${sensor.deviceId}`,
@@ -302,6 +311,32 @@ export async function appendReading(deviceId, payload) {
       activity,
     };
   });
+
+  // Fan-out de notification quand un disaster auto a été créé (alertLevel
+  // critical + cooldown passé). Le service notifyEveryone touche aussi les
+  // admins (ils sont des users avec role='admin'), ce qui couvre les deux
+  // populations demandées.
+  if (outcome && outcome.disasterId) {
+    try {
+      const sensor = outcome.sensor;
+      const zone = zoneById(sensor.zoneId);
+      const zoneLabel = zone ? zone.name : sensor.zoneId;
+      await notifyEveryone({
+        type: 'sensor.critical',
+        title: `Alerte capteur — ${zoneLabel}`,
+        body: `Seuil critique franchi par ${sensor.name}. Restez vigilants.`,
+        link: `/alertes/${outcome.disasterId}`,
+        payload: {
+          disasterId: outcome.disasterId,
+          sensorId: sensor.id,
+          zoneId: sensor.zoneId,
+          alertLevel: outcome.alertLevel,
+        },
+      });
+    } catch (err) {
+      console.error('[notifications] échec fan-out capteur :', err);
+    }
+  }
 
   return outcome;
 }

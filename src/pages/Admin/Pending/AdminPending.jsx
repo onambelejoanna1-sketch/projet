@@ -9,6 +9,7 @@ import {
 } from '@/services/api';
 import { disasterLabel, severityInfo, zoneName } from '@/utils/labels';
 import RejectModal from '@/components/disasters/RejectModal/RejectModal';
+import { SEVERITY_LABEL, SEVERITY_RANK } from '@/constants/severityLevels';
 import { ADMIN_NAV_ITEMS } from '../adminNav';
 import PendingKpis from './sections/PendingKpis';
 import PendingFilters from './sections/PendingFilters';
@@ -16,15 +17,7 @@ import PendingList from './sections/PendingList';
 import PendingDetailModal from './sections/PendingDetailModal';
 import styles from './AdminPending.module.css';
 
-const SEVERITY_RANK = { critical: 4, high: 3, medium: 2, low: 1 };
 const DAY_MS = 24 * 60 * 60 * 1000;
-
-const SEV_LABEL = {
-  low: 'Faible',
-  medium: 'Modérée',
-  high: 'Élevée',
-  critical: 'Critique',
-};
 
 function applyFilters(items, severity, type, zone) {
   return items.filter((r) => {
@@ -246,7 +239,7 @@ export default function AdminPending() {
               <span className={styles.confirmMeta}>
                 {disasterLabel(confirmValidate.type)} ·{' '}
                 {zoneName(confirmValidate.quartierId)} ·{' '}
-                {SEV_LABEL[confirmValidate.severity] ??
+                {SEVERITY_LABEL[confirmValidate.severity] ??
                   severityInfo(confirmValidate.severity).label}
               </span>
               <span className={styles.confirmMeta}>

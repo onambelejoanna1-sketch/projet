@@ -1,14 +1,8 @@
 import Modal from '@/components/common/Modal/Modal';
 import { disasterLabel, severityInfo, zoneName } from '@/utils/labels';
 import { formatDateTime, timeSinceISO } from '@/utils/dates';
+import { SEVERITY_LABEL } from '@/constants/severityLevels';
 import styles from '../AdminPending.module.css';
-
-const SEV_LABEL = {
-  low: 'Faible',
-  medium: 'Modérée',
-  high: 'Élevée',
-  critical: 'Critique',
-};
 
 export default function PendingDetailModal({ alert, onClose, onValidate, onReject }) {
   const open = Boolean(alert);
@@ -26,7 +20,7 @@ export default function PendingDetailModal({ alert, onClose, onValidate, onRejec
             className={styles.detailSeverity}
             style={{ backgroundColor: sev.color }}
           >
-            {SEV_LABEL[alert.severity] ?? sev.label}
+            {SEVERITY_LABEL[alert.severity] ?? sev.label}
           </span>
           <span className={styles.detailTime}>
             {timeSinceISO(alert.createdAt)} · {formatDateTime(alert.createdAt)}

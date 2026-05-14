@@ -4,13 +4,6 @@ import { disasterLabel } from '@/utils/labels';
 import { formatTime } from '@/utils/dates';
 import styles from './LiveTicker.module.css';
 
-const SEV_LABEL = {
-  low: 'Faible',
-  medium: 'Modérée',
-  high: 'Élevée',
-  critical: 'Critique',
-};
-
 function Item({ item }) {
   return (
     <span className={styles.item}>

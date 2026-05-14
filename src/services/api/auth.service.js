@@ -56,6 +56,22 @@ export async function signIn({ email, password }) {
   return data.user;
 }
 
+export async function requestPasswordReset(email) {
+  return apiRequest('/auth/password-reset/request', {
+    method: 'POST',
+    body: { email },
+    auth: false,
+  });
+}
+
+export async function confirmPasswordReset({ token, password }) {
+  return apiRequest('/auth/password-reset/confirm', {
+    method: 'POST',
+    body: { token, password },
+    auth: false,
+  });
+}
+
 export async function signOut() {
   try {
     await apiRequest('/auth/logout', { method: 'POST' });

@@ -5,8 +5,8 @@ import { ROUTES } from '@/constants/routes';
 import styles from './Footer.module.css';
 
 const EMERGENCY = [
-  { label: 'Police secours', number: '17' },
-  { label: 'Pompiers / Sécurité civile', number: '18' },
+  { label: 'Police secours', number: '117' },
+  { label: 'Pompiers / Sécurité civile', number: '118' },
   { label: 'SAMU Cameroun', number: '119' },
 ];
 

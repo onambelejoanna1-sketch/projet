@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Container from '@/components/common/Container/Container';
 import Button from '@/components/common/Button/Button';
+import NotificationsBell from '@/components/notifications/NotificationsBell/NotificationsBell';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/contexts/ToastContext';
@@ -62,6 +63,7 @@ export default function Header() {
         <div className={styles.actions}>
           {user ? (
             <>
+              <NotificationsBell />
               <Button as="link" to={dashboardTo} variant="outline" size="sm">
                 {isAdmin ? 'Console admin' : 'Mon espace'}
               </Button>

@@ -4,17 +4,11 @@ import Container from '@/components/common/Container/Container';
 import Badge from '@/components/common/Badge/Badge';
 import Button from '@/components/common/Button/Button';
 import { ROUTES } from '@/constants/routes';
+import { SEVERITY_LABEL } from '@/constants/severityLevels';
 import { getPublicFeed } from '@/services/api';
 import { disasterLabel, zoneName, severityInfo } from '@/utils/labels';
 import { timeSinceISO } from '@/utils/dates';
 import styles from './LiveAlerts.module.css';
-
-const SEV_LABEL = {
-  low: 'Faible',
-  medium: 'Modérée',
-  high: 'Élevée',
-  critical: 'Critique',
-};
 
 const COVER_BY_TYPE = {
   flood: 'flood',
@@ -105,7 +99,7 @@ export default function LiveAlerts() {
                           •
                         </span>
                         <span className={styles.severity} style={{ color: sev.color }}>
-                          {SEV_LABEL[alert.severity] || sev.label}
+                          {SEVERITY_LABEL[alert.severity] || sev.label}
                         </span>
                       </div>
                     </div>

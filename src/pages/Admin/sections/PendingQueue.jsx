@@ -3,14 +3,8 @@ import { useToast } from '@/contexts/ToastContext';
 import { disasterLabel, severityInfo, zoneName } from '@/utils/labels';
 import { timeSinceISO } from '@/utils/dates';
 import { rejectDisaster, validateDisaster } from '@/services/api';
+import { SEVERITY_LABEL } from '@/constants/severityLevels';
 import styles from '../AdminDashboard.module.css';
-
-const SEV_LABEL = {
-  low: 'Faible',
-  medium: 'Modérée',
-  high: 'Élevée',
-  critical: 'Critique',
-};
 
 export default function PendingQueue({ pending, onChanged }) {
   const { notify } = useToast();
@@ -77,7 +71,7 @@ export default function PendingQueue({ pending, onChanged }) {
                       className={styles.severityPill}
                       style={{ backgroundColor: sev.color }}
                     >
-                      {SEV_LABEL[r.severity]}
+                      {SEVERITY_LABEL[r.severity]}
                     </span>
                     <span className={styles.queueTime}>{timeSinceISO(r.createdAt)}</span>
                   </div>

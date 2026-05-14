@@ -1,6 +1,6 @@
 import { makeError } from '../utils/errors.js';
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_RE = /^[^\s@.]+(?:\.[^\s@.]+)*@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Za-z]{2,}$/;
 
 export function normalizeEmail(email) {
   return String(email || '').trim().toLowerCase();

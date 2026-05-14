@@ -1,12 +1,13 @@
 import { BrowserRouter, useLocation } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ToastProvider } from '@/contexts/ToastContext';
+import { NotificationsProvider } from '@/contexts/NotificationsContext';
 import Header from '@/components/layout/Header/Header';
 import Footer from '@/components/layout/Footer/Footer';
 import InstallPrompt from '@/components/common/InstallPrompt/InstallPrompt';
 import AppRoutes from '@/routes/AppRoutes';
 
-const CHROMELESS_PREFIXES = ['/tableau-de-bord', '/admin'];
+const CHROMELESS_PREFIXES = ['/tableau-de-bord', '/admin', '/notifications'];
 
 function Shell() {
   const location = useLocation();
@@ -27,7 +28,9 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <ToastProvider>
-          <Shell />
+          <NotificationsProvider>
+            <Shell />
+          </NotificationsProvider>
         </ToastProvider>
       </AuthProvider>
     </BrowserRouter>

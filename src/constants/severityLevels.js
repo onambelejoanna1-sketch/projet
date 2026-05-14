@@ -6,3 +6,9 @@ export const SEVERITY_LEVELS = {
 };
 
 export const SEVERITY_LIST = Object.values(SEVERITY_LEVELS);
+
+export const SEVERITY_LABEL = Object.fromEntries(
+  Object.entries(SEVERITY_LEVELS).map(([id, def]) => [id, def.label]),
+);
+
+export const SEVERITY_RANK = { low: 1, medium: 2, high: 3, critical: 4 };

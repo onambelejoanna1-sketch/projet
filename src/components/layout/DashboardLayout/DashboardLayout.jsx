@@ -5,6 +5,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { signOut } from '@/services/auth';
 import { ROUTES } from '@/constants/routes';
 import { classNames } from '@/utils/formatters';
+import NotificationsBell from '@/components/notifications/NotificationsBell/NotificationsBell';
 import SidebarNav from './SidebarNav';
 import styles from './DashboardLayout.module.css';
 
@@ -84,6 +85,9 @@ export default function DashboardLayout({
           <div className={styles.topbarText}>
             {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
             <h1 className={styles.title}>{title}</h1>
+          </div>
+          <div className={styles.topbarActions}>
+            <NotificationsBell />
           </div>
         </header>
 

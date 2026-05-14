@@ -126,7 +126,9 @@ export default function Login() {
 
         <div className={formStyles.aside}>
           <span className={formStyles.helper}>Mot de passe oublié ?</span>
-          <span className={formStyles.helper}>Bientôt disponible</span>
+          <Link to={ROUTES.FORGOT_PASSWORD} className={formStyles.linkInline}>
+            Le réinitialiser →
+          </Link>
         </div>
 
         <Button

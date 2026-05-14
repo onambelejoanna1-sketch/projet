@@ -1,13 +1,7 @@
 import { disasterLabel, severityInfo, zoneName } from '@/utils/labels';
 import { timeSinceISO } from '@/utils/dates';
+import { SEVERITY_LABEL } from '@/constants/severityLevels';
 import styles from '../Dashboard.module.css';
-
-const SEV_LABEL = {
-  low: 'Faible',
-  medium: 'Modérée',
-  high: 'Élevée',
-  critical: 'Critique',
-};
 
 export default function NearbyAlerts({ alerts }) {
   if (!alerts || alerts.length === 0) {
@@ -41,7 +35,7 @@ export default function NearbyAlerts({ alerts }) {
                   className={styles.severityPill}
                   style={{ backgroundColor: sev.color }}
                 >
-                  {SEV_LABEL[a.severity]}
+                  {SEVERITY_LABEL[a.severity]}
                 </span>
                 <span className={styles.alertTime}>
                   {timeSinceISO(a.createdAt)}

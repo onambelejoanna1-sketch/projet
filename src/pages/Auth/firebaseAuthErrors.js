@@ -14,6 +14,10 @@ const MESSAGES = {
   'auth/operation-not-allowed':
     'Méthode de connexion désactivée. Contacte un administrateur.',
   'auth/user-disabled': 'Ce compte a été désactivé.',
+  'auth/invalid-reset-token':
+    'Lien de réinitialisation invalide ou expiré. Recommencez la demande.',
+  'rate-limit/too-many-requests':
+    'Trop de tentatives. Réessayez dans quelques minutes.',
 };
 
 export function authErrorMessage(error) {

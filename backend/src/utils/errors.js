@@ -17,6 +17,7 @@ export const STATUS_BY_CODE = {
   'auth/forbidden': 403,
   'auth/user-not-found': 404,
   'auth/email-already-in-use': 409,
+  'auth/invalid-reset-token': 400,
 
   'disasters/invalid-payload': 400,
   'disasters/invalid-photo': 400,
@@ -28,6 +29,11 @@ export const STATUS_BY_CODE = {
   'sensors/invalid-payload': 400,
   'sensors/unauthorized': 401,
   'sensors/duplicate-device': 409,
+
+  'notifications/not-found': 404,
+
+  'push/disabled': 503,
+  'push/invalid-subscription': 400,
 };
 
 export function statusForCode(code) {

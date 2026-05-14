@@ -14,6 +14,9 @@
     "dev:all": "concurrently -k -n front,back -c blue,magenta \"npm run dev\" \"npm --prefix backend run dev\"",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:all": "vitest run && npm --prefix backend test",
     "prepreview": "npm run kill:front",
     "preview": "vite preview",
     "preview:build": "npm run build && npm run preview",
@@ -41,6 +44,7 @@
     "kill-port": "^2.0.1",
     "prettier": "^3.8.3",
     "vite": "^8.0.10",
-    "vite-plugin-pwa": "^1.3.0"
+    "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^4.1.6"
   }
 }

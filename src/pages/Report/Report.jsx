@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
@@ -13,6 +13,7 @@ import { SEVERITY_LIST } from '@/constants/severityLevels';
 import { createDisaster } from '@/services/api';
 import { classNames } from '@/utils/formatters';
 import { shrinkDataUrl } from '@/utils/image';
+import { DISASTER_TITLE_MAX, DISASTER_DESCRIPTION_MAX } from '@/constants/formLimits';
 import styles from './Report.module.css';
 
 const NAV_ITEMS = [
@@ -23,8 +24,8 @@ const NAV_ITEMS = [
   { to: ROUTES.PROFILE, label: 'Mon profil', icon: '·' },
 ];
 
-const TITLE_MAX = 80;
-const DESC_MAX = 500;
+const TITLE_MAX = DISASTER_TITLE_MAX;
+const DESC_MAX = DISASTER_DESCRIPTION_MAX;
 
 export default function Report() {
   const { notify } = useToast();
@@ -106,10 +107,6 @@ export default function Report() {
       setSubmitting(false);
     }
   }
-
-  // Defensive: if the user navigates away mid-stream, the hook handles the cleanup.
-  // Nothing to do here.
-  useEffect(() => undefined, []);
 
   return (
     <DashboardLayout

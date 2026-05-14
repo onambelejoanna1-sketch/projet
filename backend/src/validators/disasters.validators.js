@@ -5,8 +5,35 @@ import {
   SEVERITY_LEVELS,
 } from '../constants/domain.js';
 
-const PHOTO_DATAURL_RE = /^data:image\/(png|jpe?g|webp);base64,[A-Za-z0-9+/=]+$/;
+const PHOTO_DATAURL_RE = /^data:image\/(png|jpe?g|webp);base64,([A-Za-z0-9+/=]+)$/;
 const PHOTO_MAX_LEN = 700_000; // ~525 KB binary
+
+const MAGIC = {
+  png: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+  jpeg: [0xff, 0xd8, 0xff],
+  webp: { riff: [0x52, 0x49, 0x46, 0x46], webp: [0x57, 0x45, 0x42, 0x50] },
+};
+
+function startsWith(buf, bytes) {
+  if (buf.length < bytes.length) return false;
+  for (let i = 0; i < bytes.length; i += 1) {
+    if (buf[i] !== bytes[i]) return false;
+  }
+  return true;
+}
+
+function matchesDeclaredType(buf, declared) {
+  if (declared === 'png') return startsWith(buf, MAGIC.png);
+  if (declared === 'jpeg' || declared === 'jpg') return startsWith(buf, MAGIC.jpeg);
+  if (declared === 'webp') {
+    return (
+      buf.length >= 12 &&
+      startsWith(buf, MAGIC.webp.riff) &&
+      MAGIC.webp.webp.every((b, i) => buf[8 + i] === b)
+    );
+  }
+  return false;
+}
 
 export function validateNewDisaster(input) {
   if (!input || typeof input !== 'object') {
@@ -53,8 +80,19 @@ export function validatePhotoDataUrl(photoDataUrl) {
   if (photoDataUrl.length > PHOTO_MAX_LEN) {
     throw makeError('disasters/photo-too-large', 'Photo trop volumineuse (max ~500 KB).');
   }
-  if (!PHOTO_DATAURL_RE.test(photoDataUrl)) {
+  const match = PHOTO_DATAURL_RE.exec(photoDataUrl);
+  if (!match) {
     throw makeError('disasters/invalid-photo', 'Format de photo invalide.');
+  }
+  const declared = match[1].toLowerCase();
+  let head;
+  try {
+    head = Buffer.from(match[2].slice(0, 24), 'base64');
+  } catch {
+    throw makeError('disasters/invalid-photo', 'Image illisible.');
+  }
+  if (!matchesDeclaredType(head, declared)) {
+    throw makeError('disasters/invalid-photo', 'En-tête image invalide ou incohérent.');
   }
 }
 

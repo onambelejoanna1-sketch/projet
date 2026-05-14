@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Auth/Login';
 import Register from '@/pages/Auth/Register';
+import ForgotPassword from '@/pages/Auth/ForgotPassword';
+import ResetPassword from '@/pages/Auth/ResetPassword';
 import Dashboard from '@/pages/Dashboard/Dashboard';
 import AdminDashboard from '@/pages/Admin/AdminDashboard';
 import AdminPending from '@/pages/Admin/Pending/AdminPending';
@@ -13,6 +15,7 @@ import UserAlerts from '@/pages/Alerts/UserAlerts';
 import Map from '@/pages/Map/Map';
 import Report from '@/pages/Report/Report';
 import Profile from '@/pages/Profile/Profile';
+import Notifications from '@/pages/Notifications/Notifications';
 import ProtectedRoute from '@/components/layout/ProtectedRoute/ProtectedRoute';
 import { ROUTES } from '@/constants/routes';
 
@@ -34,6 +37,8 @@ export default function AppRoutes() {
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.REGISTER} element={<Register />} />
+      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
+      <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
       <Route
         path={ROUTES.REPORT}
         element={
@@ -66,6 +71,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path={ROUTES.NOTIFICATIONS}
+        element={
+          <ProtectedRoute>
+            <Notifications />
           </ProtectedRoute>
         }
       />

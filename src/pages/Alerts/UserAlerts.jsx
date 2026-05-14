@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import DashboardLayout from '@/components/layout/DashboardLayout/DashboardLayout';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/contexts/ToastContext';
 import { ROUTES } from '@/constants/routes';
 import { getPublicFeed } from '@/services/api';
 import AlertsKpis from './sections/AlertsKpis';
@@ -43,6 +44,7 @@ function deriveKpis(feed) {
 
 export default function UserAlerts() {
   const { profile } = useAuth();
+  const { notify } = useToast();
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [feed, setFeed] = useState([]);
 
@@ -52,16 +54,23 @@ export default function UserAlerts() {
       .then((rows) => {
         if (!cancelled) setFeed(rows);
       })
-      .catch(() => {
-        if (!cancelled) setFeed([]);
+      .catch((err) => {
+        if (cancelled) return;
+        setFeed([]);
+        console.error('[UserAlerts] échec chargement feed :', err);
+        notify({
+          tone: 'error',
+          title: 'Alertes indisponibles',
+          body: 'Impossible de charger le flux. Vérifiez votre connexion.',
+        });
       });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [notify]);
 
   const filteredFeed = useMemo(() => applyFilters(feed, filters), [feed, filters]);
-  const kpis = useMemo(() => deriveKpis(feed), [feed]);
+  const kpis = useMemo(() => deriveKpis(filteredFeed), [filteredFeed]);
 
   const firstName = (profile?.displayName || profile?.email || 'sentinelle').split(/\s+/)[0];
 

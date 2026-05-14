@@ -8,6 +8,12 @@ import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/contexts/ToastContext';
 import { updateUserProfile } from '@/services/auth';
 import { ROUTES } from '@/constants/routes';
+import {
+  FEEDBACK_MAX,
+  USER_DISPLAY_NAME_MIN,
+  USER_DISPLAY_NAME_MAX,
+} from '@/constants/formLimits';
+import PushToggle from '@/components/notifications/PushToggle/PushToggle';
 import { classNames } from '@/utils/formatters';
 import styles from './Profile.module.css';
 
@@ -21,9 +27,8 @@ const NAV_ITEMS = [
 
 const LANG_KEY = 'alerteDouala.lang';
 const FEEDBACK_KEY = 'alerteDouala.feedback';
-const FEEDBACK_MAX = 500;
-const NAME_MIN = 2;
-const NAME_MAX = 60;
+const NAME_MIN = USER_DISPLAY_NAME_MIN;
+const NAME_MAX = USER_DISPLAY_NAME_MAX;
 
 const LANG_OPTIONS = [
   { id: 'fr', label: 'Français' },
@@ -197,7 +202,15 @@ export default function Profile() {
         createdAt: new Date().toISOString(),
       };
       const raw = window.localStorage.getItem(FEEDBACK_KEY);
-      const list = raw ? JSON.parse(raw) : [];
+      let list = [];
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) list = parsed;
+        } catch {
+          // donnée corrompue : on repart d'une liste vide plutôt que de planter
+        }
+      }
       list.push(entry);
       window.localStorage.setItem(FEEDBACK_KEY, JSON.stringify(list));
       setFeedback('');
@@ -284,6 +297,17 @@ export default function Profile() {
             </Button>
           </div>
         )}
+      </section>
+
+      {/* ============ Settings — Notifications push ============ */}
+      <section className={styles.panel} aria-labelledby="push-title">
+        <header className={styles.panelHead}>
+          <h2 id="push-title" className={styles.panelTitle}>Notifications push</h2>
+          <span className={styles.panelHint}>Recevoir les alertes même app fermée</span>
+        </header>
+        <div className={styles.panelBody}>
+          <PushToggle />
+        </div>
       </section>
 
       {/* ============ Settings — Langue ============ */}

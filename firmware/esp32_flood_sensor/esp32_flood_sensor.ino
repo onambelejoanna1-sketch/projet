@@ -2,12 +2,17 @@
  * Alerte Douala — Capteur ESP32 anti-inondation
  *
  * Mesure 3 paramètres (niveau d'eau, pluviométrie, humidité du sol) et envoie les lectures
- * à la Cloud Function `ingestSensorReading` toutes les 60 s via HTTPS.
+ * au backend Express toutes les 60 s (POST /api/sensors/:deviceId/readings).
  *
  * Capteurs :
  *   - Niveau d'eau   : HC-SR04 (ultrason) — TRIG=GPIO5, ECHO=GPIO18
  *   - Pluviométrie   : YL-83 (analogique) — A0 sur GPIO34
  *   - Humidité sol   : capacitif v2.0    — A1 sur GPIO35
+ *
+ * Robustesse :
+ *   - Watchdog logiciel (esp_task_wdt) qui reboot l'ESP32 si la boucle se fige.
+ *   - Reconnexion WiFi non-bloquante avec backoff exponentiel (1s → 60s).
+ *   - Retry sur 5xx / timeout du backend avec backoff (60s → 5 min entre publications).
  *
  * Configuration : copier config.h.example en config.h et renseigner WiFi + URL + clé API.
  */
@@ -15,6 +20,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include <esp_task_wdt.h>
 #include "config.h"
 
 // --- Pins ---
@@ -32,8 +38,19 @@ constexpr int RAIN_WET = 1500;          // ADC trempé
 constexpr int SOIL_DRY = 3500;          // ADC sol sec
 constexpr int SOIL_WET = 1200;          // ADC sol détrempé
 
+// --- Robustesse ---
+// WDT à 60 s : couvre une publication HTTP lente (timeout 10 s) avec marge.
+constexpr uint32_t WDT_TIMEOUT_S = 60;
 constexpr unsigned long PUBLISH_INTERVAL_MS = 60UL * 1000UL;
+constexpr unsigned long MAX_PUBLISH_BACKOFF_MS = 5UL * 60UL * 1000UL;
+constexpr unsigned long WIFI_RECONNECT_INITIAL_MS = 1000UL;
+constexpr unsigned long WIFI_RECONNECT_MAX_MS = 60UL * 1000UL;
+
 unsigned long lastPublish = 0;
+unsigned long currentPublishDelay = PUBLISH_INTERVAL_MS;
+unsigned long lastWifiAttempt = 0;
+unsigned long wifiBackoffMs = WIFI_RECONNECT_INITIAL_MS;
+int consecutiveFailures = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -43,6 +60,7 @@ void setup() {
 
   Serial.printf("Connexion WiFi à %s...\n", WIFI_SSID);
   WiFi.mode(WIFI_STA);
+  WiFi.setAutoReconnect(true);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   unsigned long start = millis();
   while (WiFi.status() != WL_CONNECTED && millis() - start < 30000) {
@@ -52,20 +70,55 @@ void setup() {
   if (WiFi.status() == WL_CONNECTED) {
     Serial.printf("\n[WiFi] OK — IP %s\n", WiFi.localIP().toString().c_str());
   } else {
-    Serial.println("\n[WiFi] Échec — redémarrage dans 10 s");
-    delay(10000);
-    ESP.restart();
+    Serial.println("\n[WiFi] Échec au démarrage — on retente dans la boucle.");
   }
+
+  // Watchdog activé APRÈS la phase WiFi initiale (qui peut durer jusqu'à 30 s).
+#if defined(ESP_ARDUINO_VERSION_MAJOR) && ESP_ARDUINO_VERSION_MAJOR >= 3
+  // arduino-esp32 v3+ : API par struct.
+  esp_task_wdt_config_t wdtCfg = {
+    .timeout_ms = WDT_TIMEOUT_S * 1000U,
+    .idle_core_mask = 0,
+    .trigger_panic = true,
+  };
+  esp_task_wdt_init(&wdtCfg);
+#else
+  // arduino-esp32 v2 : API legacy.
+  esp_task_wdt_init(WDT_TIMEOUT_S, true);
+#endif
+  esp_task_wdt_add(NULL);  // s'abonner depuis la loopTask
+  Serial.printf("[WDT] activé (%lus)\n", (unsigned long)WDT_TIMEOUT_S);
 }
 
 void loop() {
+  esp_task_wdt_reset();
   unsigned long now = millis();
-  if (now - lastPublish < PUBLISH_INTERVAL_MS && lastPublish != 0) {
+
+  // 1) WiFi : reconnexion non-bloquante avec backoff exponentiel.
+  if (WiFi.status() != WL_CONNECTED) {
+    if (lastWifiAttempt == 0 || now - lastWifiAttempt >= wifiBackoffMs) {
+      Serial.printf("[WiFi] reconnexion (backoff %lu ms)\n", wifiBackoffMs);
+      WiFi.disconnect();
+      WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+      lastWifiAttempt = now;
+      unsigned long next = wifiBackoffMs * 2;
+      wifiBackoffMs = next > WIFI_RECONNECT_MAX_MS ? WIFI_RECONNECT_MAX_MS : next;
+    }
+    delay(200);
+    return;
+  }
+  // Connecté : on remet le backoff WiFi à zéro.
+  wifiBackoffMs = WIFI_RECONNECT_INITIAL_MS;
+  lastWifiAttempt = 0;
+
+  // 2) Cadence d'envoi (avec backoff si publications consécutives en échec).
+  if (lastPublish != 0 && now - lastPublish < currentPublishDelay) {
     delay(200);
     return;
   }
   lastPublish = now;
 
+  // 3) Lectures capteurs.
   float waterPct = readWaterLevel();
   float rainfall = readRainfall();
   float soilPct = readSoilMoisture();
@@ -75,12 +128,18 @@ void loop() {
   Serial.printf("Eau=%.1f%%  Pluie=%.1f mm/h  Sol=%.1f%%  Batt=%d%%\n",
                 waterPct, rainfall, soilPct, batteryPct);
 
-  if (WiFi.status() != WL_CONNECTED) {
-    WiFi.reconnect();
-    delay(2000);
-  }
-  if (WiFi.status() == WL_CONNECTED) {
-    publish(waterPct, rainfall, soilPct, batteryPct, rssi);
+  // 4) Publication + gestion d'échec.
+  bool ok = publish(waterPct, rainfall, soilPct, batteryPct, rssi);
+  if (ok) {
+    consecutiveFailures = 0;
+    currentPublishDelay = PUBLISH_INTERVAL_MS;
+  } else {
+    if (consecutiveFailures < 8) consecutiveFailures++;
+    int shift = consecutiveFailures > 3 ? 3 : consecutiveFailures;
+    unsigned long backoff = PUBLISH_INTERVAL_MS * (1UL << shift);
+    currentPublishDelay = backoff > MAX_PUBLISH_BACKOFF_MS ? MAX_PUBLISH_BACKOFF_MS : backoff;
+    Serial.printf("[POST] échec #%d — prochain envoi dans %lu ms\n",
+                  consecutiveFailures, currentPublishDelay);
   }
 }
 
@@ -140,7 +199,8 @@ int readBatteryPct() {
   return (int)pct;
 }
 
-void publish(float water, float rain, float soil, int batt, int rssi) {
+// Retourne true uniquement sur réponse 2xx du backend.
+bool publish(float water, float rain, float soil, int batt, int rssi) {
   HTTPClient http;
   http.begin(INGEST_URL);
   http.addHeader("Content-Type", "application/json");
@@ -159,6 +219,9 @@ void publish(float water, float rain, float soil, int batt, int rssi) {
   String payload;
   serializeJson(doc, payload);
   int code = http.POST(payload);
-  Serial.printf("[POST] %d %s\n", code, http.getString().c_str());
+  // On ne logue que le code HTTP — on évite getString() pour ne pas allouer
+  // inutilement et limiter le risque de fuite via le moniteur série.
+  Serial.printf("[POST] code=%d\n", code);
   http.end();
+  return code >= 200 && code < 300;
 }

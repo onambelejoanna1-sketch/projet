@@ -7,7 +7,16 @@ const DB_DIR = path.resolve(__dirname, '../../data');
 const DB_PATH = path.join(DB_DIR, 'db.json');
 const TMP_PATH = path.join(DB_DIR, 'db.json.tmp');
 
-const COLLECTIONS = ['users', 'disasters', 'sensors', 'sensor_readings', 'activity'];
+const COLLECTIONS = [
+  'users',
+  'disasters',
+  'sensors',
+  'sensor_readings',
+  'activity',
+  'password_resets',
+  'notifications',
+  'push_subscriptions',
+];
 
 function emptyDb() {
   const db = {};
@@ -53,7 +62,11 @@ export function writeDb(updater) {
     await fs.rename(TMP_PATH, DB_PATH);
     return next;
   });
-  writeChain = task.catch(() => {});
+  // On garde la chaîne vivante après un échec pour que les écritures suivantes
+  // n'héritent pas du rejet, mais on logue pour ne pas perdre l'info.
+  writeChain = task.catch((err) => {
+    console.error('[jsonStore] échec écriture db.json :', err);
+  });
   return task;
 }
 

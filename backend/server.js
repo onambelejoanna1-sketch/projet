@@ -14,7 +14,27 @@ import { notFound } from './src/middleware/notFound.js';
 
 const app = express();
 
-app.use(cors({ origin: env.corsOrigin, credentials: false }));
+// Chaque entrée de env.corsOrigins peut contenir un '*' (ex: https://*.vercel.app)
+// pour couvrir les URLs de preview en plus du domaine de prod.
+const corsOriginMatchers = env.corsOrigins.map((pattern) => {
+  if (!pattern.includes('*')) return pattern;
+  const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+  return new RegExp(`^${escaped}$`);
+});
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Requêtes sans header Origin (curl, health checks, ingestion capteur) : autorisées.
+      if (!origin) return callback(null, true);
+      const allowed = corsOriginMatchers.some((matcher) =>
+        typeof matcher === 'string' ? matcher === origin : matcher.test(origin),
+      );
+      callback(allowed ? null : new Error(`CORS: origine non autorisée (${origin})`), allowed);
+    },
+    credentials: false,
+  }),
+);
 // 2 Mo pour accepter les photos en data URL (plafond effectif côté validateur).
 app.use(express.json({ limit: '2mb' }));
 
@@ -46,7 +66,7 @@ async function start() {
   }
   app.listen(env.port, () => {
     console.log(`[api] Alerte Douala backend écoute sur http://localhost:${env.port}`);
-    console.log(`[api] CORS autorisé pour ${env.corsOrigin}`);
+    console.log(`[api] CORS autorisé pour ${env.corsOrigins.join(', ')}`);
   });
 }
 

@@ -1,7 +1,7 @@
 import { getToken } from './tokenStorage';
 import { mapHttpError, networkError } from './errorMap';
 
-const API_BASE = '/api';
+export const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export async function apiRequest(path, { method = 'GET', body, auth = true, headers = {} } = {}) {
   const finalHeaders = { ...headers };

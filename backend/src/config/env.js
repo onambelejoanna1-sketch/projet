@@ -13,7 +13,11 @@ export const env = {
   jwtSecret: required('JWT_SECRET'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   bcryptRounds: Number(process.env.BCRYPT_ROUNDS || 10),
-  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  // Liste d'origines séparées par des virgules (prod Vercel + previews + dev local).
+  corsOrigins: (process.env.CORS_ORIGIN || 'http://localhost:5173')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean),
   sensorApiKey: required('SENSOR_API_KEY'),
   // Web Push : optionnel — si absent, les notifications OS-level sont désactivées
   // (le canal SSE in-app continue de fonctionner normalement).

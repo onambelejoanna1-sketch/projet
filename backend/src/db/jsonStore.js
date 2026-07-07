@@ -3,7 +3,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_DIR = path.resolve(__dirname, '../../data');
+// DB_DIR permet de pointer la base vers un volume persistant (ex: Koyeb Volume)
+// en production, où le système de fichiers du conteneur est sinon éphémère.
+const DB_DIR = process.env.DB_DIR
+  ? path.resolve(process.env.DB_DIR)
+  : path.resolve(__dirname, '../../data');
 const DB_PATH = path.join(DB_DIR, 'db.json');
 const TMP_PATH = path.join(DB_DIR, 'db.json.tmp');
 

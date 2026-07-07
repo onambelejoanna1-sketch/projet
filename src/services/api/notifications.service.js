@@ -1,4 +1,4 @@
-import { apiRequest } from './client';
+import { apiRequest, API_BASE } from './client';
 import { getToken } from './tokenStorage';
 
 export async function listNotifications({ limit, unreadOnly } = {}) {
@@ -30,7 +30,7 @@ export function subscribeNotifications({ onNotification, onError, onOpen } = {})
   if (!token || typeof window === 'undefined' || typeof EventSource === 'undefined') {
     return { close: () => {} };
   }
-  const url = `/api/notifications/stream?token=${encodeURIComponent(token)}`;
+  const url = `${API_BASE}/notifications/stream?token=${encodeURIComponent(token)}`;
   const source = new EventSource(url);
 
   source.addEventListener('open', () => {
